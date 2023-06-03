@@ -9,7 +9,7 @@ import logo from './assets/logo.png';
 
 // Data
 const account1 = {
-  owner: 'Jonas Schmedtmann',
+  owner: 'Obi Anthony Uchenna',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
@@ -65,6 +65,7 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 const displayMovements = (movements) => {
+  containerMovements.innerHTML = '';
   movements.forEach((movement, index) => {
     const type = movement > 0 ? 'deposit' : 'withdrawal';
     const html = `<div class="movements__row">
@@ -80,6 +81,20 @@ const displayMovements = (movements) => {
 
 displayMovements(account1.movements);
 
+const createUsernames = (accounts) => {
+  accounts.forEach((account) => {
+    account.username = account.owner
+      .toLowerCase()
+      .split(' ')
+      .map((name) => name[0])
+      .join('');
+  });
+};
+
+createUsernames(accounts);
+
+console.log(accounts);
+
 const currencies = new Map([
   ['USD', 'United States dollar'],
   ['EUR', 'Euro'],
@@ -88,4 +103,21 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-/////////////////////////////////////////////////
+// const euroToUsd = 1.1;
+// const movementsUSD = movements.map((movement) => movement * euroToUsd);
+
+// console.log(movements);
+// console.log(movementsUSD);
+
+// const movementsDescriptions = movements.map((movement, index) => {
+//   `Movement ${index + 1}: You ${
+//     movement > 0 ? 'deposited' : 'withdrew'
+//   } ${Math.abs(movement)}`;
+// });
+// const user = 'Obi Anthony Uchenna'; //oau
+// const username = user
+//   .toLowerCase()
+//   .split(' ')
+//   .map((name) => name[0])
+//   .join('');
+// console.log(username);
