@@ -3,9 +3,13 @@ import Icon from './assets/icon.png';
 import logo from './assets/logo.png';
 ('use strict');
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// BANKIST APP
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // Data
 const account1 = {
@@ -81,6 +85,34 @@ const displayMovements = (movements) => {
 
 displayMovements(account1.movements);
 
+const calcDisplayBalance = (movements) => {
+  const balance = movements.reduce((acc, movement) => acc + movement, 0);
+  labelBalance.textContent = `${balance}€`;
+};
+
+calcDisplayBalance(account1.movements);
+
+const calcDisplaySummary = (movements) => {
+  const incomes = movements
+    .filter((movement) => movement > 0)
+    .reduce((acc, movement) => acc + movement, 0);
+  labelSumIn.textContent = `${incomes}€`;
+
+  const out = movements
+    .filter((movement) => movement < 0)
+    .reduce((acc, movement) => acc + movement, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  const interest = movements
+    .filter((movement) => movement > 0)
+    .map((deposit) => (deposit * 1.2) / 100)
+    .filter((interest) => interest >= 1)
+    .reduce((acc, interest) => acc + interest, 0);
+  labelSumInterest.textContent = `${interest}€`;
+};
+
+calcDisplaySummary(account1.movements);
+
 const createUsernames = (accounts) => {
   accounts.forEach((account) => {
     account.username = account.owner
@@ -92,32 +124,3 @@ const createUsernames = (accounts) => {
 };
 
 createUsernames(accounts);
-
-console.log(accounts);
-
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
-
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
-// const euroToUsd = 1.1;
-// const movementsUSD = movements.map((movement) => movement * euroToUsd);
-
-// console.log(movements);
-// console.log(movementsUSD);
-
-// const movementsDescriptions = movements.map((movement, index) => {
-//   `Movement ${index + 1}: You ${
-//     movement > 0 ? 'deposited' : 'withdrew'
-//   } ${Math.abs(movement)}`;
-// });
-// const user = 'Obi Anthony Uchenna'; //oau
-// const username = user
-//   .toLowerCase()
-//   .split(' ')
-//   .map((name) => name[0])
-//   .join('');
-// console.log(username);
